@@ -1,51 +1,32 @@
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
 
-#TODO-1: Combine the encrypt() and decrypt() functions into a single function called caesar(). 
-
-def encrypt(text, shift):
+def caesar(direction, text, shift):
   word_list = list(text)
-  encypted_list = []
-  encrypted_word = ''
+  caesar_cipher = []
+  text = ''
 
-  for char in word_list:
-    current_posistion = alphabet.index(char)
-    new_position = current_posistion + shift
-    
-    if (new_position > len(alphabet)):
-      new_position = round(new_position % len(alphabet))
-
-    encypted_list.append(alphabet[new_position])
-
-  print(f"The encoded text is {encrypted_word.join(encypted_list)}")
-
-def decrypt(text, shift):
-  word_list = list(text)
-  decrypted_list =[]
-  decrypted_word = ''
+  if direction == 'decode':
+    shift *= -1
 
   for char in word_list:
     current_position = alphabet.index(char)
-    new_position = current_position - shift
 
-    if(new_position < 0):
+    new_position = current_position + shift
+    
+    if (new_position > len(alphabet)):
+      new_position = round(new_position % len(alphabet))
+    elif (new_position < 0):
       new_position = len(alphabet) + (new_position)
+      
+    caesar_cipher.append(alphabet[new_position])
 
-    decrypted_list.append(alphabet[new_position])
-  
-  print(f"The decoded text is {decrypted_word.join(decrypted_list)}")
+  print(f"The {direction}d text is {text.join(caesar_cipher)}")
 
-#TODO-2: Call the caesar() function, passing over the 'text', 'shift' and 'direction' values.
-
-if direction == 'encode':
+if 'encode' in  direction or 'decode' in direction:
   text = input("Type your message:\n").lower()
   shift = int(input("Type the shift number:\n"))
 
-  encrypt(text, shift)
-elif direction == 'decode':
-  text = input("Type your message:\n").lower()
-  shift = int(input("Type the shift number:\n"))
-  
-  decrypt(text, shift)
+  caesar(direction, text, shift)
 else:
   print(f"\nSorry the command {direction} is not valid.\nPlease use 'encode' or 'decode'")
